@@ -1,43 +1,67 @@
-FROM webratio/ant:1.9.6
+# Welcome to Hue (http://gethue.com) Dockerfile
+# Build an image from a remote github or local cloned Hue repository.
 
-MAINTAINER "Lrxcy <lrxcywq@gmail.com>"
+FROM ubuntu:18.04
+LABEL description="Hue Project https://github.com/cloudera/hue"
 
-RUN apt-get update
-RUN apt-get install -y git
-RUN apt-get install -y ant
-RUN apt-get install -y gcc
-RUN apt-get install -y g++
-RUN apt-get install -y libkrb5-dev
-RUN apt-get install -y libmysqlclient-dev
-RUN apt-get install -y libssl-dev
-RUN apt-get install -y libsasl2-dev
-RUN apt-get install -y libsasl2-modules-gssapi-mit
-RUN apt-get install -y libsqlite3-dev
-RUN apt-get install -y libtidy-0.99-0
-RUN apt-get install -y libxml2-dev
-RUN apt-get install -y libxslt-dev
-RUN apt-get install -y libffi-dev
-RUN apt-get install -y make
-RUN apt-get install -y maven
-RUN apt-get install -y libldap2-dev
-RUN apt-get install -y python-dev
-RUN apt-get install -y python-setuptools
-RUN apt-get install -y libgmp3-dev
-RUN apt-get install -y libz-dev
+RUN apt-get update -y && apt-get install -y \
+  build-essential \
+  libkrb5-dev \
+  libmysqlclient-dev \
+  libssl-dev \
+  libsasl2-dev \
+  libsasl2-modules-gssapi-mit \
+  libsqlite3-dev \
+  libtidy-dev \
+  libxml2-dev \
+  libxslt-dev \
+  libffi-dev \
+  libldap2-dev \
+  libpq-dev \
+  python-dev \
+  python-setuptools \
+  libgmp3-dev \
+  libz-dev \
+  software-properties-common \
+  curl \
+  git \
+  rsync \
+  sudo \
+  maven \
+  gcc \
+  swig \
+  openssl \
+  xmlsec1 \
+  libxmlsec1-openssl \
+  hugo \
+  && rm -rf /var/lib/apt/lists/*
 
-RUN mkdir -p /opt/hue
-WORKDIR /opt/hue
+ADD . /hue
+WORKDIR /hue
 
-RUN git clone https://github.com/cloudera/hue.git ./
-RUN git checkout release-4.7.0
-RUN make apps
+# Not doing a `make prod`, so manually getting production ini
+RUN rm desktop/conf/*
+COPY desktop/conf.dist desktop/conf
 
-ADD entrypoint.sh /entrypoint.sh
-RUN chmod a+x /entrypoint.sh
+# Need recent version for Ubuntu
+RUN curl -sL https://deb.nodesource.com/setup_10.x | sudo bash - \
+  && apt-get install -y nodejs
 
-COPY common_header.mako /opt/hue/desktop/core/src/desktop/templates/common_header.mako
+RUN PREFIX=/usr/share make install
+RUN useradd -ms /bin/bash hue && chown -R hue /usr/share/hue
+
+# Build the docs (not in Makefile yet)
+# RUN hugo --source docs/docs-site
+
+# Only keep install dir
+WORKDIR /usr/share/hue
+RUN rm -rf /hue
+
+# Install DB connectors
+RUN ./build/env/bin/pip install psycopg2-binary
+
+COPY tools/docker/hue/conf desktop/conf
+COPY tools/docker/hue/startup.sh .
 
 EXPOSE 8088
-
-ENTRYPOINT ["/entrypoint.sh"]
-CMD ["build/env/bin/hue", "runserver_plus", "0.0.0.0:8088"]
+CMD ["./startup.sh"]
