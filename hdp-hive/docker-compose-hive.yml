@@ -1,0 +1,71 @@
+version: '2' 
+services:
+  namenode:
+    image: lrxcywq/hdp-namenode:3.2.1
+    container_name: namenode
+    volumes:
+      - ./data/namenode:/hadoop/dfs/name
+    environment:
+      - CLUSTER_NAME=test
+    env_file:
+      - ./hadoop-hive.env
+    ports:
+      - 50070:50070
+  datanode:
+    image: lrxcywq/hdp-datanode:3.2.1
+    depends_on: 
+      - namenode
+    volumes:
+      - ./data/datanode:/hadoop/dfs/data
+    env_file:
+      - ./hadoop-hive.env
+    ports:
+      - 50075:50075
+  hive-server:
+    image: lrxcywq/hive:3.1.2
+    container_name: hive-server
+    env_file:
+      - ./hadoop-hive.env
+    environment:
+      - "HIVE_CORE_CONF_javax_jdo_option_ConnectionURL=jdbc:postgresql://hive-metastore/metastore"
+    ports:
+      - "10000:10000"
+  hive-metastore:
+    image: lrxcywq/hive:3.1.2
+    container_name: hive-metastore
+    env_file:
+      - ./hadoop-hive.env
+    command: /opt/hive/bin/hive --service metastore
+  hive-metastore-postgresql:
+    image: lrxcywq/hive-metastore-postgresql:3.1.2
+  spark-master:
+    image: lrxcywq/spark-master:3.0.0
+    container_name: spark-master
+    ports:
+      - 8080:8080
+      - 7077:7077
+    env_file:
+      - ./hadoop-hive.env
+  spark-worker:
+    image: lrxcywq/spark-worker:3.0.0
+    depends_on:
+      - spark-master
+    environment:
+      - SPARK_MASTER=spark://spark-master:7077
+    ports:
+      - "8081:8081"
+    env_file:
+      - ./hadoop-hive.env
+  spark-notebook:
+    image: lrxcywq/spark-notebook:3.0.0
+    container_name: spark-notebook
+    env_file:
+      - ./hadoop-hive.env
+    ports:
+      - 9001:9001
+  hue:
+    image: lrxcywq/hue:4.7.0
+    ports:
+      - 8088:8088
+    environment:
+      - NAMENODE_HOST=namenode
