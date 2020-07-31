@@ -1,7 +1,7 @@
 version: '2' 
 services:
   namenode:
-    image: lrxcywq/hdp-namenode:3.2.1
+    image: lrxcywq/hdp_namenode:3.2.1
     container_name: namenode
     volumes:
       - ./data/namenode:/hadoop/dfs/name
@@ -12,7 +12,7 @@ services:
     ports:
       - 50070:50070
   datanode:
-    image: lrxcywq/hdp-datanode:3.2.1
+    image: lrxcywq/hdp_datanode:3.2.1
     depends_on: 
       - namenode
     volumes:
