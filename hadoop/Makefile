@@ -14,7 +14,7 @@ build:
 wordcount:
 	docker build -t hdp_wordcount ./submit
 	docker run --network ${DOCKER_NETWORK} --env-file ${ENV_FILE} lrxcywq/hdp_base:$(hadoop_version) hdfs dfs -mkdir -p /input/
-	docker run --network ${DOCKER_NETWORK} --env-file ${ENV_FILE} lrxcywq/hdp_base:$(hadoop_version) hadoop fs -copyFromLocal -f ./README.md /input/
+	docker run --network ${DOCKER_NETWORK} --env-file ${ENV_FILE} lrxcywq/hdp_base:$(hadoop_version) hdfs dfs -touch /output/README.txt
 	docker run --network ${DOCKER_NETWORK} --env-file ${ENV_FILE} hdp_wordcount
 	docker run --network ${DOCKER_NETWORK} --env-file ${ENV_FILE} lrxcywq/hdp_base:$(hadoop_version) hdfs dfs -cat /output/*
 	docker run --network ${DOCKER_NETWORK} --env-file ${ENV_FILE} lrxcywq/hdp_base:$(hadoop_version) hdfs dfs -rm -r /output
