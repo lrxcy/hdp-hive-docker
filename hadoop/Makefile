@@ -1,4 +1,4 @@
-DOCKER_NETWORK = docker-hadoop_default
+DOCKER_NETWORK = hadoop_default
 ENV_FILE = hadoop.env
 hadoop_version = 3.2.1
 
