@@ -14,8 +14,8 @@ build:
 wordcount:
 	docker build -t hdp_wordcount ./submit
 	docker run --network ${DOCKER_NETWORK} --env-file ${ENV_FILE} lrxcywq/hdp_base:$(hadoop_version) hdfs dfs -mkdir -p /input/
-	docker run --network ${DOCKER_NETWORK} --env-file ${ENV_FILE} lrxcywq/hdp_base:$(hadoop_version) hdfs dfs -ls /output/
+	docker run --network ${DOCKER_NETWORK} --env-file ${ENV_FILE} lrxcywq/hdp_base:$(hadoop_version) hdfs dfs -touch /input/new
 	docker run --network ${DOCKER_NETWORK} --env-file ${ENV_FILE} hdp_wordcount
-	docker run --network ${DOCKER_NETWORK} --env-file ${ENV_FILE} lrxcywq/hdp_base:$(hadoop_version) hdfs dfs -cat /output/*
-	docker run --network ${DOCKER_NETWORK} --env-file ${ENV_FILE} lrxcywq/hdp_base:$(hadoop_version) hdfs dfs -rm -r /output
+	docker run --network ${DOCKER_NETWORK} --env-file ${ENV_FILE} lrxcywq/hdp_base:$(hadoop_version) hdfs dfs -cat /input/*
+	docker run --network ${DOCKER_NETWORK} --env-file ${ENV_FILE} lrxcywq/hdp_base:$(hadoop_version) hdfs dfs -rm -r /input
 	docker run --network ${DOCKER_NETWORK} --env-file ${ENV_FILE} lrxcywq/hdp_base:$(hadoop_version) hdfs dfs -rm -r /input
