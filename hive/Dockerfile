@@ -1,4 +1,4 @@
-FROM lrxcywq/hdp_base:3.2.1
+FROM lrxcywq/hdp_jre:8u265
 
 MAINTAINER Lrxcy <lrxcywq@gmail.com>
 
