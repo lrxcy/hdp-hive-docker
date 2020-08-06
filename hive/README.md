@@ -22,7 +22,7 @@ This deploys a Presto server listens on port `8080`
 Load data into Hive:
 ```
   $ docker-compose exec hive-server bash
-  # /opt/hive/bin/beeline -u jdbc:hive2://localhost:10000
+  # /opt/hive/bin/beeline -u "jdbc:hive2://0.0.0.0:10000/default;transportMode=http"
   > CREATE TABLE pokes (foo INT, bar STRING);
   > LOAD DATA LOCAL INPATH '/opt/hive/examples/files/kv1.txt' OVERWRITE INTO TABLE pokes;
 ```
