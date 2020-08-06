@@ -11,6 +11,7 @@ services:
       - ./hadoop-hive.env
     ports:
       - "9870:9870"
+      - "9000:9000"
   datanode:
     image: lrxcywq/hdp_datanode:3.2.1
     volumes:
