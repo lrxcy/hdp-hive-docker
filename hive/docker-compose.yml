@@ -31,7 +31,7 @@ services:
     ports:
       - "10000:10000"
   hive-metastore:
-    image: lrxcywq/hive:3.1.2
+    image: lrxcywq/hive-metastore:3.0.0
     env_file:
       - ./hadoop-hive.env
     command: /opt/hive/bin/hive --service metastore
