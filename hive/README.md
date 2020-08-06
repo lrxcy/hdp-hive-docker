@@ -5,11 +5,6 @@ To run Hive with postgresql metastore:
     docker-compose up -d
 ```
 
-To deploy in Docker Swarm:
-```
-    docker stack deploy -c docker-compose.yml hive
-```
-
 To run a PrestoDB 0.181 with Hive connector:
 
 ```
