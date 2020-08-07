@@ -2,7 +2,7 @@ FROM lrxcywq/hive:3.1.0
 
 MAINTAINER "Lrxcy <lrxcywq@gmail.com>"
 
-RUN apt-get update && apt-get install -y postgresql && service postgresql start
+RUN apt-get update && apt-get install -y postgresql sudo && service postgresql start
 
 COPY init-hive-db.sh /opt/init-user-db.sh
 
