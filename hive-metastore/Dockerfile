@@ -10,6 +10,7 @@ COPY scripts/hive_user.sql /user.sql
 COPY scripts/entrypoint.sh /entrypoint.sh
 COPY hive-site.xml ${HIVE_HOME}/conf/hive-site.xml
 
+RUN mv ${HIVE_HOME}/lib/mysql-connector-java-8.0.19.jar ${HIVE_HOME}/lib/mysql-connector-java.jar
 RUN service mysql start && mysql < /user.sql
 
 RUN groupadd -r hive --gid=1000 && \
