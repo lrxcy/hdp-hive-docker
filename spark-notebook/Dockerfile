@@ -5,8 +5,6 @@ MAINTAINER Lrxcy <lrxcywq@gmail.com>
 ENV APACHE_SPARK_VERSION 3.0.0
 ENV APACHE_HADOOP_VERSION 3.2
 
-https://mirrors.bfsu.edu.cn/apache/spark/spark-3.0.0/spark-3.0.0-bin-hadoop3.2.tgz
-
 RUN curl -fSL "https://www.apache.org/dyn/closer.lua/spark/spark-${APACHE_SPARK_VERSION}/spark-${APACHE_SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz" -o /tmp/spark-notebook.tgz && \
     tar -xzvf /tmp/spark-notebook.tgz -C /opt/ && \
     mv /opt/spark-notebook-* /opt/spark-notebook && \
