@@ -1,4 +1,4 @@
-FROM lrxcywq/hive:3.1.2
+FROM lrxcywq/hive:3.1.0
 
 WORKDIR /opt
 
