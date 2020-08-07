@@ -4,9 +4,6 @@ WORKDIR /opt
 
 ENV HADOOP_CLASSPATH=${HADOOP_HOME}/share/hadoop/tools/lib/aws-java-sdk-bundle-1.11.375.jar:${HADOOP_HOME}/share/hadoop/tools/lib/hadoop-aws-3.2.1.jar
 
-RUN rm -f ${HIVE_HOME}/lib/guava-19.0.jar && \
-    cp ${HADOOP_HOME}/share/hadoop/common/lib/guava-27.0-jre.jar ${HIVE_HOME}/lib/ 
-
 COPY scripts/entrypoint.sh /entrypoint.sh
 
 RUN groupadd -r hive --gid=1000 && \
