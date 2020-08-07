@@ -4,6 +4,8 @@ WORKDIR /opt
 
 ENV HADOOP_CLASSPATH=${HADOOP_HOME}/share/hadoop/tools/lib/aws-java-sdk-bundle-1.11.375.jar:${HADOOP_HOME}/share/hadoop/tools/lib/hadoop-aws-3.2.1.jar
 
+RUN apt-get update && apt-get install mysql-server && service mysql start
+
 COPY scripts/hive_user.sql /user.sql
 COPY scripts/entrypoint.sh /entrypoint.sh
 
