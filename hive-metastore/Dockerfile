@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y mysql-server
 
 COPY scripts/hive_user.sql /user.sql
 COPY scripts/entrypoint.sh /entrypoint.sh
+COPY hive-site.xml ${HIVE_HOME}/conf/hive-site.xml
 
 RUN service mysql start && sh -c '/bin/echo -e "\n" | mysql -u root -p < /user.sql'
 
