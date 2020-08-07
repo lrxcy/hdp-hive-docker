@@ -24,7 +24,9 @@ RUN apt-get update && apt-get install -y wget procps mysql-server && \
 	rm apache-hive-$HIVE_VERSION-bin.tar.gz && \
 	curl -L https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-8.0.19.tar.gz | tar zxf - && \
     	cp mysql-connector-java-8.0.19/mysql-connector-java-8.0.19.jar ${HIVE_HOME}/lib/ && \
-    	rm -rf  mysql-connector-java-8.0.1 && \
+    	rm -rf  mysql-connector-java-8.0.19 && \
+	rm -f ${HIVE_HOME}/lib/guava-19.0.jar && \
+    	cp ${HADOOP_HOME}/share/hadoop/common/lib/guava-27.0-jre.jar ${HIVE_HOME}/lib/ && \
 	apt-get --purge remove -y wget && \
 	apt-get clean && \
 	rm -rf /var/lib/apt/lists/*
