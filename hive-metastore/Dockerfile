@@ -9,6 +9,8 @@ RUN apt-get update && apt-get install -y mysql-server
 COPY scripts/hive_user.sql /user.sql
 COPY scripts/entrypoint.sh /entrypoint.sh
 
+RUN service mysql start && mysql -u root -p < /user.sql "\n\n"
+
 RUN groupadd -r hive --gid=1000 && \
     useradd -r -g hive --uid=1000 -d ${HIVE_HOME} hive && \
     chown hive:hive -R ${HIVE_HOME} && \
