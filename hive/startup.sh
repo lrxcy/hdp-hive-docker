@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# start mysql
+service mysql start
+mysql -u root -p < /usr/local/hive_user.sql
+
 hadoop fs -mkdir       /tmp
 hadoop fs -mkdir -p    /user/hive/warehouse
 hadoop fs -chmod g+w   /tmp
