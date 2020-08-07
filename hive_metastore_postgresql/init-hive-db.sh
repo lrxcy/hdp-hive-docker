@@ -9,7 +9,7 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" <<-EOSQL
   CREATE DATABASE metastore;
   GRANT ALL PRIVILEGES ON DATABASE metastore TO hive;
   \c metastore
-  \i /hive/hive-schema-3.1.2.postgres.sql
+  \i ${HIVE_HOME}/scripts/metastore/upgrade/postgres/hive-schema-3.1.0.postgres.sql
   \pset tuples_only
   \o /tmp/grant-privs
 SELECT 'GRANT SELECT,INSERT,UPDATE,DELETE ON "' || schemaname || '"."' || tablename || '" TO hive ;'
