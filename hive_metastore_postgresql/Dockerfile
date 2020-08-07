@@ -1,7 +1,9 @@
-FROM postgres:9.5.3
+FROM lrxcywq/hive:3.1.0
 
 MAINTAINER "Lrxcy <lrxcywq@gmail.com>"
 
-COPY init-hive-db.sh /docker-entrypoint-initdb.d/init-user-db.sh
+RUN apt-get update && apt-get install -y postgresql && service postgresql start
 
-RUN chmod a+x /docker-entrypoint-initdb.d/init-user-db.sh
+COPY init-hive-db.sh /opt/init-user-db.sh
+
+RUN chmod a+x /opt/init-user-db.sh && su postgres && /opt/init-user-db.sh
