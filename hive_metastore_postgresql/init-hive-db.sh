@@ -10,10 +10,9 @@ sudo -u postgres psql <<-EOSQL
   \c metastore
   \i /opt/hive/scripts/metastore/upgrade/postgres/hive-schema-3.1.0.postgres.sql
   \p set tuples_only
-  \o /tmp/grant-privs
+  \o /tmp/grant-a
 SELECT 'GRANT SELECT,INSERT,UPDATE,DELETE ON "' || schemaname || '"."' || tablename || '" TO hive ;'
 FROM pg_tables
 WHERE tableowner = CURRENT_USER and schemaname = 'public';
-  \o
-  \i /tmp/grant-privs
+  \o /tmp/grant-b
 EOSQL
