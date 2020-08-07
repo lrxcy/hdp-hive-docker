@@ -3,6 +3,7 @@ version: "3"
 services:
   namenode:
     image: lrxcywq/hdp_namenode:3.2.1
+    container_name: namenode
     volumes:
       - namenode:/hadoop/dfs/name
     environment:
@@ -14,6 +15,7 @@ services:
       - "9000:9000"
   datanode:
     image: lrxcywq/hdp_datanode:3.2.1
+    container_name: datanode
     volumes:
       - datanode:/hadoop/dfs/data
     env_file:
@@ -24,6 +26,7 @@ services:
       - "9864:9864"
   hive-server:
     image: lrxcywq/hive:3.1.0
+    container_name: hive-server
     env_file:
       - ./hadoop-hive.env
     environment:
@@ -34,15 +37,16 @@ services:
       - "10001:10001"
   hive-metastore:
     image: lrxcywq/hive-metastore:3.1.0
+    container_name: hive-metastore
     env_file:
       - ./hadoop-hive.env
-    command: /opt/hive/bin/hive --service metastore
     environment:
       SERVICE_PRECONDITION: "namenode:9870 datanode:9864 hive-metastore-postgresql:5432"
     ports:
       - "9083:9083"
   hive-metastore-postgresql:
     image: lrxcywq/hive-metastore-postgresql:3.1.0
+    container_name: hive-metastore-postgresql
   presto-coordinator:
     image: shawnzhu/prestodb:0.181
     ports:
