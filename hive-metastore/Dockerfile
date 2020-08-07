@@ -8,7 +8,12 @@ COPY scripts/hive_user.sql /user.sql
 COPY scripts/entrypoint.sh /entrypoint.sh
 COPY hive-site.xml ${HIVE_HOME}/conf/hive-site.xml
 
-RUN mv ${HIVE_HOME}/lib/mysql-connector-java-8.0.19.jar ${HIVE_HOME}/lib/mysql-connector-java.jar
+RUN rm ${HIVE_HOME}/lib/mysql-connector-java-8.0.19.jar  && \
+    curl -L https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.49.tar.gz | tar zxf - && \
+    cp mysql-connector-java-5.1.49/mysql-connector-java-5.1.49.jar ${HIVE_HOME}/lib/mysql-connector-java.jar && \
+    rm -rf  mysql-connector-java-5.1.49 && \
+    echo "done"
+
 RUN service mysql start && mysql < /user.sql && schematool -initSchema -dbType mysql && echo "done"
 
 RUN chmod +x /entrypoint.sh

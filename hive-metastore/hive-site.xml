@@ -8,7 +8,7 @@
 
 <property>
 <name>hive.server2.thrift.bind.host</name>
-<value>127.0.0.1</value>
+<value>10001</value>
 </property>
 
 <property>
