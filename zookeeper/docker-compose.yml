@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+    cc1.co:
+      image: "lrxcywq/zookeeper"
+      ports: 
+        - 31200:31200
+        - 31201:31201
+        - 31202:31202
+      container_name: cc1.co
+      command: "bash -c /startup"
+      hostname: "cc1.co"
+      environment:
+        - "constraint:node==host1.cluster.com"
+    cc2.co:
+      image: "lrxcywq/zookeeper"
+      ports:
+        - 31200:31200
+        - 31201:31201
+        - 31202:31202
+      container_name: cc2.co
+      command: "bash -c /startup"
+      hostname: "cc2.co"
+      environment:
+        - "constraint:node==host2.cluster.com"
+    cc3.co:
+      image: "lrxcywq/zookeeper"
+      ports:
+        - 31200:31200
+        - 31201:31201
+        - 31202:31202
+      container_name: cc3.co
+      command: "bash -c /startup"
+      hostname: "cc3.co"
+      environment:
+        - "constraint:node==host3.cluster.com"

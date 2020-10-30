@@ -1,0 +1,62 @@
+version: "2"
+
+# Excerpt from this complete docker-compose.yml => https://github.com/big-data-europe/pilot-lrxcywq-cycle2/blob/master/docker-compose.yml
+
+services:
+  lrxcywq_zoo_1:
+    image: "lrxcywq/zookeeper"
+    ports: 
+      - 31200:31200
+      - 31201:31201
+      - 31202:31202
+    container_name: lrxcywq_zoo_1
+    command: "bash -c /startup"
+    hostname: "lrxcywq_zoo_1"
+  lrxcywq_zoo_2:
+    image: "lrxcywq/zookeeper"
+    ports:
+      - 31200:31200
+      - 31201:31201
+      - 31202:31202
+    container_name: lrxcywq_zoo_2
+    command: "bash -c /startup"
+    hostname: "lrxcywq_zoo_2"
+  lrxcywq_zoo_3:
+    image: "lrxcywq/zookeeper"
+    ports:
+      - 31200:31200
+      - 31201:31201
+      - 31202:31202
+    container_name: lrxcywq_zoo_3
+    command: "bash -c /startup"
+    hostname: "lrxcywq_zoo_3"
+  lrxcywq-kafka-1:
+    image: "lrxcywq/kafka"
+    depends_on:
+      - lrxcywq_zoo_1
+      - lrxcywq_zoo_2
+      - lrxcywq_zoo_3
+    ports:
+      - 9092:9092
+    command: "bash -c /app/bin/kafka-init"
+    hostname: "lrxcywq-kafka-1"
+  lrxcywq-kafka-2:
+    image: "lrxcywq/kafka"
+    depends_on:
+      - lrxcywq_zoo_1
+      - lrxcywq_zoo_2
+      - lrxcywq_zoo_3
+    ports:
+      - 9092:9092
+    command: "bash -c /app/bin/kafka-init"
+    hostname: "lrxcywq-kafka-2"
+  lrxcywq-kafka-3:
+    image: "lrxcywq/kafka"
+    depends_on:
+      - lrxcywq_zoo_1
+      - lrxcywq_zoo_2
+      - lrxcywq_zoo_3
+    ports:
+      - 9092:9092
+    command: "bash -c /app/bin/kafka-init"
+    hostname: "lrxcywq-kafka-3"

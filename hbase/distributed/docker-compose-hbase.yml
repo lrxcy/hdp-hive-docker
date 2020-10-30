@@ -1,0 +1,80 @@
+version: '3'
+
+services:
+  hbase-master:
+    image: lrxcywq/hbase_master:2.3.2
+    networks:
+      - hbase
+    deploy:
+      mode: replicated
+      replicas: 1
+      endpoint_mode: dnsrr
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints:
+          - node.hostname == cc1.co
+      labels:
+        traefik.docker.network: hbase
+        traefik.port: 16010
+    env_file:
+      - ./hbase.env
+
+  hbase-regionserver-1:
+    image: lrxcywq/hbase_regionserver:2.3.2
+    networks:
+      - hbase
+    deploy:
+      mode: replicated
+      replicas: 1
+      endpoint_mode: dnsrr
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints:
+          - node.hostname == cc1.co
+    env_file:
+      - ./hbase.env
+    environment:
+      HBASE_CONF_hbase_regionserver_hostname: hbase-regionserver-1
+
+  hbase-regionserver-2:
+    image: lrxcywq/hbase_regionserver:2.3.2
+    networks:
+      - hbase
+    deploy:
+      mode: replicated
+      replicas: 1
+      endpoint_mode: dnsrr
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints:
+          - node.hostname == cc2.co
+    env_file:
+      - ./hbase.env
+    environment:
+      HBASE_CONF_hbase_regionserver_hostname: hbase-regionserver-2
+
+  hbase-regionserver-3:
+    image: lrxcywq/hbase_regionserver:2.3.2
+    networks:
+      - hbase
+    deploy:
+      mode: replicated
+      replicas: 1
+      endpoint_mode: dnsrr
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints:
+          - node.hostname == cc3.co
+    env_file:
+      - ./hbase.env
+    environment:
+      HBASE_CONF_hbase_regionserver_hostname: hbase-regionserver-3
+
+networks:
+  hbase:
+    external:
+      name: hbase
